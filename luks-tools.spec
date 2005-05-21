@@ -12,9 +12,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The luks-tools package contains various utilities for working with
-LUKS-protected filesystems. HAL uses these utilites to automatically mount
-encrypted volumes when they are attached to a system, provided the user can
-produce the correct passphrase.
+LUKS-protected filesystems. HAL uses these utilites to automatically
+mount encrypted volumes when they are attached to a system, provided
+the user can produce the correct passphrase.
 
 %package -n gnome-luks
 Summary:	GNOME utilities for working with LUKS-protected filesystems
