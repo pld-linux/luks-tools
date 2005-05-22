@@ -1,4 +1,5 @@
 Summary:	Utilities for working with LUKS-protected filesystems
+Summary(pl):	Narzêdzia do pracy z systemami plików chronionymi przez LUKS
 Name:		luks-tools
 Version:	0.0.4
 Release:	0.1
@@ -16,8 +17,15 @@ LUKS-protected filesystems. HAL uses these utilites to automatically
 mount encrypted volumes when they are attached to a system, provided
 the user can produce the correct passphrase.
 
+%description -l pl
+Pakiet luks-tools zawiera ró¿ne narzêdzia do pracy z systemami plików
+chronionymi przez LUKS. HAL u¿ywa tych narzêdzi do automatycznego
+montowania zaszyfrowanych wolumenów przy pod³±czaniu do systemu, pod
+warunkiem, ¿e u¿ytkownik mo¿e podaæ poprawne has³o.
+
 %package -n gnome-luks
 Summary:	GNOME utilities for working with LUKS-protected filesystems
+Summary(pl):	Narzêdzia GNOME do pracy z systemami plików chronionymi przez LUKS
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-pygtk-glade
@@ -25,6 +33,9 @@ Requires:	python-dbus >= 0.33
 
 %description -n gnome-luks
 GNOME utilities for working with LUKS-protected filesystems.
+
+%description -n gnome-luks -l pl
+Narzêdzia GNOME do pracy z systemami plików chronionymi przez LUKS.
 
 %prep
 %setup -q
@@ -35,6 +46,7 @@ GNOME utilities for working with LUKS-protected filesystems.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
