@@ -1,12 +1,14 @@
 Summary:	Utilities for working with LUKS-protected filesystems
 Summary(pl):	Narzêdzia do pracy z systemami plików chronionymi przez LUKS
 Name:		luks-tools
-Version:	0.0.8
+Version:	0.0.9
 Release:	0.1
 License:	GPL v2
 Group:		Applications
 Source0:	http://www.flyn.org/projects/luks-tools/%{name}-%{version}.tar.gz
-# Source0-md5:	60d1a082cea3b94ff438cf71b7c3935d
+# Source0-md5:	be29c9090450c8efeafd3e8b81dccbb2
+Patch0:		%{name}-ac_progs_paths_fix.patch
+BuildRequires:	autoconf
 URL:		http://www.flyn.org/projects/luks-tools/index.html
 BuildRequires:	cryptsetup-luks-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -39,8 +41,11 @@ Narzêdzia GNOME do pracy z systemami plików chronionymi przez LUKS.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+%{__aclocal}
+%{__autoconf}
 %configure
 %{__make}
 
