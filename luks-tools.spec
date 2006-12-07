@@ -8,8 +8,9 @@ Group:		Applications
 Source0:	http://www.flyn.org/projects/luks-tools/%{name}-%{version}.tar.gz
 # Source0-md5:	be29c9090450c8efeafd3e8b81dccbb2
 Patch0:		%{name}-ac_progs_paths_fix.patch
-BuildRequires:	autoconf
 URL:		http://www.flyn.org/projects/luks-tools/index.html
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	cryptsetup-luks-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
