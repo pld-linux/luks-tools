@@ -1,5 +1,5 @@
 Summary:	Utilities for working with LUKS-protected filesystems
-Summary(pl.UTF-8):   Narzędzia do pracy z systemami plików chronionymi przez LUKS
+Summary(pl.UTF-8):	Narzędzia do pracy z systemami plików chronionymi przez LUKS
 Name:		luks-tools
 Version:	0.0.9
 Release:	0.1
@@ -28,7 +28,7 @@ warunkiem, że użytkownik może podać poprawne hasło.
 
 %package -n gnome-luks
 Summary:	GNOME utilities for working with LUKS-protected filesystems
-Summary(pl.UTF-8):   Narzędzia GNOME do pracy z systemami plików chronionymi przez LUKS
+Summary(pl.UTF-8):	Narzędzia GNOME do pracy z systemami plików chronionymi przez LUKS
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-pygtk-glade
