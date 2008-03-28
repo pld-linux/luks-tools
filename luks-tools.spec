@@ -11,7 +11,10 @@ Patch0:		%{name}-ac_progs_paths_fix.patch
 URL:		http://www.flyn.org/projects/luks-tools/index.html
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	cryptsetup-luks-devel
+BuildRequires:	glib2-devel
+BuildRequires:	libtool
+BuildRequires:	pkgconfig
+BuildRequires:	cryptsetup-luks-devel >= 1.0.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
