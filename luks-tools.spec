@@ -1,16 +1,16 @@
 Summary:	Utilities for working with LUKS-protected filesystems
 Summary(pl.UTF-8):	Narzędzia do pracy z systemami plików chronionymi przez LUKS
 Name:		luks-tools
-Version:	0.0.9
+Version:	0.0.14
 Release:	1
 License:	GPL v2
 Group:		Applications
 Source0:	http://www.flyn.org/projects/luks-tools/%{name}-%{version}.tar.gz
-# Source0-md5:	be29c9090450c8efeafd3e8b81dccbb2
-Patch0:		%{name}-ac_progs_paths_fix.patch
+# Source0-md5:	c9b5f19e2b601c8f776e98c4a8c2189d
 URL:		http://www.flyn.org/projects/luks-tools/index.html
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	check-devel >= 0.8.2
 BuildRequires:	cryptsetup-luks-devel >= 1.0.5
 BuildRequires:	glib2-devel
 BuildRequires:	libtool
@@ -45,18 +45,23 @@ Narzędzia GNOME do pracy z systemami plików chronionymi przez LUKS.
 
 %prep
 %setup -q
-%patch0 -p1
+
+# let rpm generate %{__python} dep
+%{__sed} -i -e '1s,^#!.*python,#!%{__python},' src/gnome-luks-format.in
 
 %build
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__automake}
 %configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
+# skip console.apps - redhat permission system
 %{__make} install \
+	SUBDIRS="src dry pam" \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
@@ -64,7 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README TODO
+%doc AUTHORS ChangeLog FAQ README TODO
 %attr(755,root,root) %{_sbindir}/luks-format
 %attr(755,root,root) %{_sbindir}/luks-is-encrypted
 %attr(755,root,root) %{_sbindir}/luks-setup
@@ -75,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n gnome-luks
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gnome-luks-format.py
+%attr(755,root,root) %{_bindir}/gnome-luks-format
+%config(noreplace) %verify(not md5 mtime size) /etc/pam.d/gnome-luks-format
 %{_datadir}/%{name}
 %{_mandir}/man1/gnome-luks-format.1*
