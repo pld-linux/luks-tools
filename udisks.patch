@@ -1,0 +1,51 @@
+--- luks-tools-0.0.14/src/gnome-luks-format.in	2011-08-22 23:37:49.412140022 +0300
++++ luks-tools-0.0.14/src/gnome-luks-format.in	2011-08-19 22:45:05.749157578 +0300
+@@ -220,20 +220,36 @@
+ 	def setupAvailableDevices(self, menu):
+ 		# Find available block devices.
+ 		bus = dbus.Bus.get_system()
+-		hal_manager = bus.get_object("org.freedesktop.Hal",
+-		                             "/org/freedesktop/Hal/Manager")
+-		blockDevs = hal_manager.FindDeviceByCapability("block",
+-			           dbus_interface="org.freedesktop.Hal.Manager")
+-
+-		for devUri in blockDevs:
+-		        dev = bus.get_object ("org.freedesktop.Hal", devUri)
+-			devIface = dbus.Interface(dev,
+-			                          "org.freedesktop.Hal.Device")
+-			devicePath = devIface.GetPropertyString ("block.device")
+-			self.addToAvailableDevices(menu, devicePath)
++		proxy = bus.get_object("org.freedesktop.UDisks", "/org/freedesktop/UDisks")
++		iface = dbus.Interface(proxy, "org.freedesktop.UDisks")
++		devices = iface.EnumerateDevices()
++
++		for device in devices:
++			dev_obj = bus.get_object("org.freedesktop.UDisks", device)
++			dev = dbus.Interface(dev_obj, "org.freedesktop.DBus.Properties")
++			data = {
++				'is_optical': bool(dev.Get(device, 'DeviceIsOpticalDisc')),
++				'device': str(dev.Get(device, 'DeviceFile')),
++				'mount': map(str, list(dev.Get(device, 'DeviceMountPaths'))),
++				'size': int(dev.Get(device, 'DeviceSize')),
++			}
++
++			# Skip things without a size
++			if not data['size']:
++				continue
++
++			# Skip optical drives
++			if data['is_optical']:
++				continue
++
++			# skip mounted disks
++			if data['mount']:
++				continue
++
++			self.addToAvailableDevices(menu, data['device'])
+ 
+ 		# FIXME: what should be default?  do we need to ask are you sure?
+-		self.device = devicePath
++		self.device = data['device']
+ 
+ 	def error(self, msg):
+ 		l = self.glade.get_widget("labelErr")
