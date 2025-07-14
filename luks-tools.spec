@@ -46,7 +46,7 @@ Narzędzia GNOME do pracy z systemami plików chronionymi przez LUKS.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 # let rpm generate %{__python} dep
 %{__sed} -i -e '1s,^#!.*python,#!%{__python},' src/gnome-luks-format.in
